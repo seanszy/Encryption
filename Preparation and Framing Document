@@ -1,0 +1,38 @@
+Background and context:
+	Project Overview: Our project is meant to be a password manager that is accessible online to users. The user will go to a website hosted on one of our computers. They will then login to the website using a username and a password. The password will be stored on our local computer using a hashing method to make it more secure. The hash can then be encrypted using an encryption method. This will make it even more secure. Half of our learning will be done in reference to the website. Learning how to create a website, will involve a lot of growth and research. Encryption will also involve a lot of research to determine what the best, yet still feasible method of encryption is.
+	MVP: Website stores accounts with hashed and salted passwords.
+	Goal: Website stores accounts with hashed and salted passwords, has two-factor authentication and passwords for all accounts can not be read by anyone except the user that they belong to (Including our team).
+	Stretch Goals: Becomes a messaging platform that sends encrypted messages, while having a secure user-password storage system. Another stretch goal would be to use 2-factor authentication. We could send a text message to a user, who would then have to submit that number to either login or create an account. This would make it even more secure.
+
+
+Key questions:
+	What type of encryption would be best?
+	How realistic should our project be?
+	Currently using RSA we store the private keys on the local drive, which makes it accessible to hackers.
+	How do we not do this?
+	What can hackers do?
+	Can they see the code?
+	Run the code?
+	If they see the hashes can they run the code and  just enter the hashes in further in the process?
+	How do we protect local files?
+
+
+Agenda:
+	Discuss What we Hope to Learn
+		Mostly we hope to gain information on where to head with the project. Also, we hope to gain confirmation that we are using an appropriate code structure.
+	Give Project Overview
+		See background and context section
+	Basic Code Layout: 
+		What interacts with what
+			Web Server setup
+				First page asks the user if they want to login or sign up. The signup page then takes a username and password as inputs and checks to see if there are any other users with the same username. If not, it hashes and salts the password before adding it, and the username, to a CSV file that stores the accounts. The login page is similar and also takes the same inputs. It hashes the password that the user inputs along with the salt and checks to see if the hashed password matched the hash that belongs to their username. If it does, they are directed to a custom profile page.
+			Encryption
+				The encryption takes the hashes from the user passwords and makes it more secure. This code is stored on the local network of the computer running the server.
+		Is this a reasonable code layout?
+	Discuss Encryption Strategies (Mostly with Amon and Oliver as they have more intricate knowledge. This will be brief because it will not involve other audience members as much)
+		Ask the questions above about encryption
+		Specific Encryption Strategy
+		RSA
+		SHA Hashing W/ Salt
+		Discuss which stretch goals are best 
+
