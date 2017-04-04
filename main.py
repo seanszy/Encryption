@@ -5,6 +5,7 @@ import random
 import binary
 import XOR
 import passwordToKey
+#import RSA_Encryption
 
 
 password = "yolos"
@@ -38,3 +39,5 @@ decoded_one = binary.from_binary(deXore_p)
 decoded_two = binary.from_binary(deXore_q)
 print(" Decode P:", decoded_one)
 print(" Decode Q:", decoded_two)
+
+#RSA_Encryption.run_rsa()
