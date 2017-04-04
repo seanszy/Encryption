@@ -1,7 +1,6 @@
 import random
 
 def passwordToKey(password):
-    password = "sadaskjdhaijshdkj"
     sum_char = ""
     for char in password:
         char = ord(char) + 100

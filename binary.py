@@ -24,13 +24,4 @@ def from_binary(long_key_binary):
     long_key_int_original = int(long_key_hex, 16)
     return long_key_int_original
 
-long_key_one = 123456
-long_key_two = 654321
-long_key_one_binary = to_binary(long_key_one)
-long_key_two_binary = to_binary(long_key_two)
-decoded_one = from_binary(long_key_one_binary)
-decoded_two = from_binary(long_key_two_binary)
-print("Origin One:", long_key_one)
-print("Decode One:", decoded_one)
-print("Origin Two:", long_key_two)
-print("Decode Two:", decoded_two)
+
