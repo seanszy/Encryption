@@ -2,6 +2,7 @@ import random
 import binary
 import XOR
 import passwordToKey
+import csv
 
 password = "yolos"
 long_key_password_int = passwordToKey.passwordToKey(password)
@@ -20,6 +21,7 @@ Xored_p = XOR.XOR(long_key_one_binary, long_key_password)
 Xored_q = XOR.XOR(long_key_two_binary, long_key_password)
 
 print("Encypher:", Xored_p + "Z" + Xored_q)
+
 
 deXore_p = XOR.XOR(Xored_p, long_key_password)
 deXore_q = XOR.XOR(Xored_q, long_key_password)
