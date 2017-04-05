@@ -2,18 +2,22 @@ import time
 from fractions import gcd
 
 def find_d(e, phi_public):
+    """The d value is used to decode. It is found through trial and error.
+    A correct D value is when the public key times an int + 1 % e is an integer"""
     correct_d = False
     n = 1
     while correct_d == False:
         n += 1
-        a = phi_public*n+1
-        b = a/e
-        print(b, n)
-        if b%1 == 0:
+        check_mod = phi_public*n+1
+        possible_d = check_mod/e
+        print(possible_d, n)
+        if possible_d%1 == 0:
             correct_d = True
-    return b
+    return possible_d
 
 def generate_codes(private_key_1, private_key_2):
+    """This function takes two private keys and generates the information
+    you need to do RSA including an e, d, k, phi, and public keys."""
     public_key = private_key_1*private_key_2
     phi_1 = private_key_1-1
     phi_2 = private_key_2-1
@@ -26,12 +30,10 @@ def generate_codes(private_key_1, private_key_2):
         if gcd(phi_public, current_e)== 1:
             correct_e = True
     d_is_integer = True
-    k = 1
-
+    #current_e = 17
     d = find_d(current_e, phi_public)
     #d = current_e.modInverse(private_key_1.multiply(private_key_2))
 
-    print("K: ", k)
     print("Public Key: ", public_key)
     print("Phi_Public: ", phi_public)
     print("e: ", current_e)
@@ -45,13 +47,7 @@ def encode(input, public_key, e):
 def decode(input, public_key, e, phi_1, phi_2, phi_public, private_key_1, private_key_2, d):
     value = do_exponents_2(input, int(d), public_key)
     return value
-    """
-    print(input, int(d))
-    code = input**int(d)
-    #print(input, d)
-    #print(code)
-    return(code%public_key)
-    """
+
 
 def Represents_Int(string):
     try:
@@ -161,7 +157,7 @@ def do_exponents_2(base, exponent, public_key):
         #print("Old Sum", sums, "Multiply", item)
         sums = item*sums
         #print("new sum", sums)
-    sums = sums % public_key
+    sums = sums%public_key
     return(sums)
 
 
@@ -172,7 +168,7 @@ def main():
     #information = generate_codes(110060921, 110060947) #gives wrong value
     #information = generate_codes(113, 127) #test
     p1 = 110060893
-    p2 = 110060917
+    p2 = 11006091717
     p3 = 110060921
     p4 = 110060947
     print("TEST2", p3*p4)
@@ -218,7 +214,6 @@ def run_rsa():
     #time.sleep(1)
     print("\nYour message is:", encoded_list)
 
-"""
 if __name__ == '__main__':
     #do_exponents(2615385, 1873325)
     encoded_list = main()
@@ -228,4 +223,3 @@ if __name__ == '__main__':
     print("\nDECRYPTING MESSAGE...")
     #time.sleep(1)
     print("\nYour message is:", encoded_list)
-"""
