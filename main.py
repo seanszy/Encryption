@@ -7,21 +7,11 @@ import XOR
 import passwordToKey
 #import RSA_Encryption
 
-<<<<<<< HEAD
-def create_encypher(password):
-    long_key_password_int = passwordToKey.passwordToKey(password) #converts the user password to an integer
-    long_key_password = binary.to_binary(long_key_password_int) #converts users password to a binary
-
-=======
-
-password = "yolos"
 
 def create_Encypher(password):
     long_key_password_int = passwordToKey.passwordToKey(password) #converts the user password to an integer
     long_key_password = binary.to_binary(long_key_password_int) #converts users password to a binary
 
-
->>>>>>> 1a217000cc14707a488dbfa7f8420b8365a91d77
     #randomly generate p and q
     p = random.randint(1000000, 10000000)
     q = random.randint(1000000, 10000000)
@@ -43,11 +33,8 @@ def create_Encypher(password):
     print("Encypher:", Encypher)
     return Encypher
 
-<<<<<<< HEAD
-def decode_encypher(password, Encypher):
-=======
+
 def decode_Encypher(password, Encypher):
->>>>>>> 1a217000cc14707a488dbfa7f8420b8365a91d77
     long_key_password_int = passwordToKey.passwordToKey(password) #converts the user password to an integer
     long_key_password = binary.to_binary(long_key_password_int) #converts users password to a binary
 
@@ -66,9 +53,3 @@ def decode_Encypher(password, Encypher):
     print(" Decode Q:", decoded_two)
 
     #RSA_Encryption.run_rsa()
-<<<<<<< HEAD
-=======
-password = input("ENTER PASSWORD\n")
-Encypher = create_Encypher(password)
-decode_Encypher(password, Encypher)
->>>>>>> 1a217000cc14707a488dbfa7f8420b8365a91d77
