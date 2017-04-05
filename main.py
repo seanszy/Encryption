@@ -8,7 +8,7 @@ import passwordToKey
 #import RSA_Encryption
 
 
-def create_Encypher(password):
+def create_encypher(password):
     long_key_password_int = passwordToKey.passwordToKey(password) #converts the user password to an integer
     long_key_password = binary.to_binary(long_key_password_int) #converts users password to a binary
 
@@ -34,7 +34,7 @@ def create_Encypher(password):
     return Encypher
 
 
-def decode_Encypher(password, Encypher):
+def decode_encypher(password, Encypher):
     long_key_password_int = passwordToKey.passwordToKey(password) #converts the user password to an integer
     long_key_password = binary.to_binary(long_key_password_int) #converts users password to a binary
 

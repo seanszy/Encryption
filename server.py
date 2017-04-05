@@ -62,8 +62,6 @@ def write(username, password, key):
     with open('users.csv', 'a') as csvfile:
         fieldnames = ['username', 'password', 'key']
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-        if not exists:
-            writer.writeheader()
         writer.writerow({'username': username, 'password': hash_password(password), 'key': key})
 
 
