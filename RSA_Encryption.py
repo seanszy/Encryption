@@ -10,7 +10,7 @@ def find_d(e, phi_public):
         n += 1
         check_mod = phi_public*n+1
         possible_d = check_mod/e
-        print(possible_d, n)
+        print("Possible D", possible_d)
         if possible_d%1 == 0:
             correct_d = True
     return possible_d
@@ -24,16 +24,21 @@ def generate_codes(private_key_1, private_key_2):
     phi_public = phi_1*phi_2
     correct_e = False
     current_e = 1
+    index = 0
 
     while correct_e == False:
-        current_e = current_e + 2
+        index = index+1
+        list_primes = [3, 5, 7, 11, 13, 17]
+        current_e = list_primes[index]
         if gcd(phi_public, current_e)== 1:
-            correct_e = True
+            print("Phi Mod E", phi_public%current_e, "E", current_e)
+            if phi_public%current_e != 1:
+                    correct_e = True
+    current_e = 5
     d_is_integer = True
     #current_e = 17
     d = find_d(current_e, phi_public)
     #d = current_e.modInverse(private_key_1.multiply(private_key_2))
-
     print("Public Key: ", public_key)
     print("Phi_Public: ", phi_public)
     print("e: ", current_e)
@@ -135,7 +140,7 @@ def do_exponents_2(base, exponent, public_key):
     control_binary = bin(exponent)
     control_binary_2 = control_binary[2:]
     control_binary_3 = list(reversed(control_binary_2))
-    print(control_binary, "\n", control_binary_2, "\n", control_binary_3)
+    #print(control_binary, "\n", control_binary_2, "\n", control_binary_3)
     full_binary_list = []
     binary_list_ones = []
     count = 0
@@ -147,7 +152,6 @@ def do_exponents_2(base, exponent, public_key):
             binary_list_ones.append(1)
         count += 1
         base = (base*base)
-        print("CHECK ERROR: ", base)
         base = base%public_key
 
     #print(binary_list_ones)
@@ -163,18 +167,14 @@ def do_exponents_2(base, exponent, public_key):
 
 
 def main():
-    information = generate_codes(110060893, 110060917) #correct
-    #information = generate_codes(110060917, 110060921) #gives 1
-    #information = generate_codes(110060921, 110060947) #gives wrong value
+    #information = generate_codes(110060893, 110060917) #correct
+    information = generate_codes(110060923, 110060947) #gives 1
+    #information = generate_codes(113715053, 110060947) #gives wrong value
+    #information = generate_codes(113715053, 122948927) #gives wrong value
+    #information = generate_codes(113715053, 179427637) #works
+    #information = generate_codes(113715053, 179427359)
     #information = generate_codes(113, 127) #test
-    p1 = 110060893
-    p2 = 11006091717
-    p3 = 110060921
-    p4 = 110060947
-    print("TEST2", p3*p4)
-    print("TEST1", p1*p2)
-    print("TEST3", p3*p4 - p1*p2)
-    #information2 = generate_codes(53, 59)
+
     value = input("What message do you want to send?\n")
     time.sleep(1)
     is_int = Represents_Int(value)

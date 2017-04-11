@@ -25,17 +25,21 @@ def isprime(n):
 def generate_prime():
     is_prime = False
     while is_prime == False:
-        potential_prime = random.randint(1000000000, 2000000000000000)
-        print(potential_prime)
+        potential_prime = random.randint(1000, 20000)
+        #print(potential_prime)
         is_prime = isprime(potential_prime)
     return potential_prime
 
-p = generate_prime()
-q = generate_prime()
-print("P is: ", p, "\n", "Q is: ", q)
+#p = generate_prime("hey")
+#print(p)
+#q = generate_prime()
+#print("P is: ", p)
+#print("Q is: ", q)
+#return [p, q]
 
 def main():
     p = generate_prime()
     q = generate_prime()
-    print("P is: ", p, "\n", "Q is: ", q)
+    print("P is: ", p)
+    print("Q is: ", q)
     return [p, q]
