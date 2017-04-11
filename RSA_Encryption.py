@@ -1,19 +1,37 @@
 import time
 from fractions import gcd
+import math
 
+
+# d = gcd(a,b)
+# d = ax + by
+def EEA(a, b):
+    if a == 0:
+        return (b, 0, 1)
+    else:
+        g, y, x = EEA(b % a, a)
+        return (g, x - (b // a) * y, y)
+
+
+# ex-phi*q = 1
 def find_d(e, phi_public):
-    """The d value is used to decode. It is found through trial and error.
-    A correct D value is when the public key times an int + 1 % e is an integer"""
-    correct_d = False
-    n = 1
-    while correct_d == False:
-        n += 1
-        check_mod = phi_public*n+1
-        possible_d = check_mod/e
-        print(possible_d, n)
-        if possible_d%1 == 0:
-            correct_d = True
-    return possible_d
+    g, x, y = EEA(e, phi_public)
+    if g != 1:
+        print('No modular inverse.')
+    else:
+        d = (x % phi_public)
+        return(d)
+
+
+def find_e(phi_public):
+    non_primes = set(j for i in range(2, 8) for j in range(i*2, 100, i))
+    primes = [x for x in range(2, 100) if x not in non_primes]
+    for prime in primes:
+        if math.gcd(phi_public, prime) is 1:
+            e = prime
+            break
+    return(e)
+
 
 def generate_codes(private_key_1, private_key_2):
     """This function takes two private keys and generates the information
@@ -22,29 +40,22 @@ def generate_codes(private_key_1, private_key_2):
     phi_1 = private_key_1-1
     phi_2 = private_key_2-1
     phi_public = phi_1*phi_2
-    correct_e = False
-    current_e = 1
-
-    while correct_e == False:
-        current_e = current_e + 2
-        if gcd(phi_public, current_e)== 1:
-            correct_e = True
-    d_is_integer = True
-    #current_e = 17
+    current_e = find_e(phi_public)
     d = find_d(current_e, phi_public)
-    #d = current_e.modInverse(private_key_1.multiply(private_key_2))
-
     print("Public Key: ", public_key)
     print("Phi_Public: ", phi_public)
     print("e: ", current_e)
     print("d: ", d)
-    return [public_key, current_e, phi_1, phi_2, phi_public, private_key_1, private_key_2, d]
+    return [public_key, current_e, phi_public, private_key_1, private_key_2, d]
+
 
 def encode(input, public_key, e):
     #print(input, e, "ex")
     exponent = input**e
     return ((input**e)%public_key)
-def decode(input, public_key, e, phi_1, phi_2, phi_public, private_key_1, private_key_2, d):
+
+
+def decode(input, public_key, e, phi_public, private_key_1, private_key_2, d):
     value = do_exponents_2(input, int(d), public_key)
     return value
 
@@ -55,6 +66,7 @@ def Represents_Int(string):
         return True
     except:
         return False
+
 
 def char_encode(value, information):
     message_list = []
@@ -67,12 +79,14 @@ def char_encode(value, information):
 
     return message_list
 
+
 def int_encode(value, information):
     encodes = encode(int(value), information[0], information[1])
     #print("Encrypted Message: ", encodes)
     print("\nHere is your encrypted code: ", encodes)
     #print("message: ", message)
     return encodes
+
 
 def do_exponents(base, exponent, public_key):
     #control = base**exponent
@@ -130,6 +144,7 @@ def do_exponents(base, exponent, public_key):
     #print("PUBLIC KEY", public_key)
     return calculated_value%public_key
 
+
 def do_exponents_2(base, exponent, public_key):
     #control = base**int(exponent)
     control_binary = bin(exponent)
@@ -161,11 +176,10 @@ def do_exponents_2(base, exponent, public_key):
     return(sums)
 
 
-
 def main():
-    information = generate_codes(110060893, 110060917) #correct
+    #information = generate_codes(110060893, 110060917) #correct
     #information = generate_codes(110060917, 110060921) #gives 1
-    #information = generate_codes(110060921, 110060947) #gives wrong value
+    information = generate_codes(110060921, 110060947) #gives wrong value
     #information = generate_codes(113, 127) #test
     p1 = 110060893
     p2 = 11006091717
@@ -188,11 +202,12 @@ def main():
         message_list = integer_decrypt(message_list, information)
     return message_list
 
+
 def letter_decrypt(message_list, information):
     print("msg", message_list)
     decrypted_list = []
     for messages in message_list:
-        message = decode(messages, information[0], information[1], information[2], information[3], information[4], information[5], information[6], information[7])
+        message = decode(messages, information[0], information[1], information[2], information[3], information[4], information[5])
         #print("message: ", message)
         decrypted_list.append(message)
     decrypted_message = ""
@@ -200,9 +215,11 @@ def letter_decrypt(message_list, information):
         decrypted_message +=(chr(char))
     return decrypted_message
 
+
 def integer_decrypt(encoded_integer, information):
-    message = decode(encoded_integer, information[0], information[1], information[2], information[3], information[4], information[5], information[6], information[7])
+    message = decode(encoded_integer, information[0], information[1], information[2], information[3], information[4], information[5])
     return message
+
 
 def run_rsa():
     #do_exponents(2615385, 1873325)
