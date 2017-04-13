@@ -22,13 +22,15 @@ def isprime(n):
             return False
     return True
 
-def generate_prime():
-    is_prime = False
-    while is_prime == False:
-        potential_prime = random.randint(1000, 20000)
-        #print(potential_prime)
-        is_prime = isprime(potential_prime)
-    return potential_prime
+def generate_prime(input):
+    random.seed(input)
+    lower_bound = random.randint(20, 2000)
+    upper_bound = lower_bound +100
+    non_primes = set(j for i in range(2, 8) for j in range(i*2, upper_bound, i))
+    primes = [x for x in range(lower_bound, upper_bound) if x not in non_primes]
+    p = primes[0]
+    q = primes[1]
+    return[p, q]
 
 #p = generate_prime("hey")
 #print(p)
@@ -36,6 +38,8 @@ def generate_prime():
 #print("P is: ", p)
 #print("Q is: ", q)
 #return [p, q]
+
+
 
 def main():
     p = generate_prime()

@@ -9,17 +9,12 @@ import Generate_Prime
 import math
 #import RSA_Encryption
 
-def random_primes():
-    p_q = Generate_Prime.main()
-    p = p_q[0]
-    q = p_q[1]
-    return [p, q]
-
 def create_encypher(password, p, q):
     long_key_password_int = passwordToKey.passwordToKey(password) #converts the user password to an integer
     long_key_password = binary.to_binary(long_key_password_int) #converts users password to a binary
     #randomly generate p and q
 
+    primes = Generate_Prime.generate_prime
     print(" Origin P:", p, "\n", "Origin Q:", q)
     #convert P and Q to binary
     long_key_one = p
@@ -58,11 +53,5 @@ def decode_encypher(password, Encypher):
 
     #RSA_Encryption.run_rsa()
 
-def main():
-    primes = random_primes()
-    p = primes[0]
-    q = primes[1]
-    create_encypher("pass", p, q)
-    return "Done"
 
 print(main())

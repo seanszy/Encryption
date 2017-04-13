@@ -5,6 +5,7 @@ import random
 import binary
 import XOR
 import passwordToKey
+import Generate_Prime
 #import RSA_Encryption
 
 
@@ -12,10 +13,11 @@ def create_encypher(password):
     long_key_password_int = passwordToKey.passwordToKey(password) #converts the user password to an integer
     long_key_password = binary.to_binary(long_key_password_int) #converts users password to a binary
 
-    #randomly generate p and q
-    p = random.randint(1000000, 10000000)
-    q = random.randint(1000000, 10000000)
-    print(" Origin P:", p, "\n", "Origin Q:", q)
+
+
+    primes = Generate_Prime.generate_prime(long_key_password_int)
+    p = primes[0]
+    q = primes[1]
 
     #convert P and Q to binary
     long_key_one = p
@@ -53,3 +55,5 @@ def decode_encypher(password, Encypher):
     print(" Decode Q:", decoded_two)
 
     #RSA_Encryption.run_rsa()
+
+create_encypher("ad")

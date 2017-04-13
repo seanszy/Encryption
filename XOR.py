@@ -2,7 +2,7 @@ def XOR(b1, b2):
     """This function is used to conduct XOR logic. We use XOR as a way to
     encrypt our private keys. This function runs XOR on two binary numbers that
     are passed in"""
-    
+
     b1 = str(b1)
     b2 = str(b2)
 
@@ -13,9 +13,11 @@ def XOR(b1, b2):
     if b2[0:2] == '0b':
         b2 = b2[2:]
 
+
     #converts strings into list of integers
     b1 = [int(x) for x in str(b1)]
     b2 = [int(x) for x in str(b2)]
+
     b3 = []
 
     #does XOR logic
