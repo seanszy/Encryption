@@ -24,7 +24,7 @@ def isprime(n):
 
 def generate_prime(input):
     random.seed(input)
-    lower_bound = random.randint(20, 2000)
+    lower_bound = random.randint(20000, 20000000)
     upper_bound = lower_bound +100
     non_primes = set(j for i in range(2, 8) for j in range(i*2, upper_bound, i))
     primes = [x for x in range(lower_bound, upper_bound) if x not in non_primes]

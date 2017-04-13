@@ -6,37 +6,44 @@ import binary
 import XOR
 import passwordToKey
 import Generate_Prime
-import math
 #import RSA_Encryption
 
-def create_encypher(password, p, q):
-    long_key_password_int = passwordToKey.passwordToKey(password) #converts the user password to an integer
-    long_key_password = binary.to_binary(long_key_password_int) #converts users password to a binary
-    #randomly generate p and q
 
-    primes = Generate_Prime.generate_prime
-    print(" Origin P:", p, "\n", "Origin Q:", q)
-    #convert P and Q to binary
-    long_key_one = p
-    long_key_two = q
-    long_key_one_binary = binary.to_binary(long_key_one)
-    long_key_two_binary = binary.to_binary(long_key_two)
+def create_encypher(password):
+    if len(password) > 7:
+        long_key_password_int = passwordToKey.passwordToKey(password) #converts the user password to an integer
+        long_key_password = binary.to_binary(long_key_password_int) #converts users password to a binary
 
-    #XOR P and Q
-    Xored_p = XOR.XOR(long_key_one_binary, long_key_password)
-    Xored_q = XOR.XOR(long_key_two_binary, long_key_password)
 
-    #This is the encypher which we store on the computer
-    #print("Encypher:", Xored_p + "Z" + Xored_q)
-    Encypher = Xored_p + "Z" + Xored_q
-    print("Encypher:", Encypher)
-    return Encypher
+
+        primes = Generate_Prime.generate_prime(long_key_password_int)
+        p = primes[0]
+        q = primes[1]
+        print(" P: ", p, "\n", "Q: ", q)
+        #long_key_one_binary = bin(p)
+        #long_key_two_binary = bin(q)
+        #convert P and Q to binary
+        long_key_one = p
+        long_key_two = q
+        long_key_one_binary = binary.to_binary(long_key_one)
+        long_key_two_binary = binary.to_binary(long_key_two)
+
+        #XOR P and Q
+        Xored_p = XOR.XOR(long_key_one_binary, long_key_password)
+        Xored_q = XOR.XOR(long_key_two_binary, long_key_password)
+
+        #This is the encypher which we store on the computer
+        #print("Encypher:", Xored_p + "Z" + Xored_q)
+        Encypher = Xored_p + "Z" + Xored_q
+        print("Encypher:", Encypher)
+        return Encypher
+    else:
+        print("I am sorrry, your password is too short. Try a password with 8 or more characters")
 
 
 def decode_encypher(password, Encypher):
     long_key_password_int = passwordToKey.passwordToKey(password) #converts the user password to an integer
     long_key_password = binary.to_binary(long_key_password_int) #converts users password to a binary
-
     index = Encypher.find("Z")
     Xored_p_from_cypher = Encypher[0:index]
     Xored_q_from_cypher = Encypher[index+1:]
@@ -50,8 +57,10 @@ def decode_encypher(password, Encypher):
     decoded_two = binary.from_binary(deXore_q)
     print(" Decode P:", decoded_one)
     print(" Decode Q:", decoded_two)
-
+    return[decoded_one, decoded_two]
     #RSA_Encryption.run_rsa()
 
-
-print(main())
+password = input("Input Password \n")
+encypher = create_encypher(password)
+password = input("Input Password \n")
+decode_encypher(password, encypher)
