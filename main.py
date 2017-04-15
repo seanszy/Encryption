@@ -60,7 +60,9 @@ def decode_encypher(password, Encypher):
     return[decoded_one, decoded_two]
     #RSA_Encryption.run_rsa()
 
+"""
 password = input("Input Password \n")
 encypher = create_encypher(password)
 password = input("Input Password \n")
 decode_encypher(password, encypher)
+"""

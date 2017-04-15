@@ -1,13 +1,37 @@
-<!DOCTYPE html>
+<link rel="stylesheet" href="/static/style.css" type="text/css">
+{% if session['logged_in'] %}
 <html>
   <head>
     <title>Encryption</title>
   </head>
-
   <body>
-    <h1>User: {{ user }}!</h1>
-    <hr>
-    <p> Test text </p>
-    </form>
+    <div style="overflow-y:auto;">
+      <div class="login">
+        <div class="login-screen">
+          <div class="app-title">
+            <h1>Encrypt<span style="color:#FC4A1A">IT</span></h1>
+          </div>
+          <table class="table-fill">
+            <thead>
+              <tr>
+                <th class="text-left">Websites</th>
+                <th class="text-left">Passwords</th>
+              </tr>
+            </thead>
+            <tbody class="table-hover">
+              {% for website in websites %}
+              <tr>
+                <td class="text-left"> {{ website }} </th>
+                <td class="text-left"> {{ passwords[loop.index0] }} </th>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
+{% else %}
+<p>You are already logged in!</p>
+{% endif %}
