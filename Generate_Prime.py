@@ -28,22 +28,20 @@ def generate_prime(input):
     upper_bound = lower_bound +100
     non_primes = set(j for i in range(2, 8) for j in range(i*2, upper_bound, i))
     primes = [x for x in range(lower_bound, upper_bound) if x not in non_primes]
-    p = primes[0]
-    q = primes[1]
+
+    count = 0
+    while True:
+        count += 1
+        found_prime = isprime(primes[count])
+        if found_prime:
+            return primes[count]
+
+
+def main(input):
+    random.seed(input)
+    lower_bound = random.randint(20000, 20000000)
+    p = generate_prime(lower_bound)
+    random.seed(lower_bound)
+    lower_bound2 = random.randint(20000, 20000000)
+    q = generate_prime(lower_bound2)
     return[p, q]
-
-#p = generate_prime("hey")
-#print(p)
-#q = generate_prime()
-#print("P is: ", p)
-#print("Q is: ", q)
-#return [p, q]
-
-
-
-def main():
-    p = generate_prime()
-    q = generate_prime()
-    print("P is: ", p)
-    print("Q is: ", q)
-    return [p, q]

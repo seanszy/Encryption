@@ -6,7 +6,7 @@ import binary
 import XOR
 import passwordToKey
 import Generate_Prime
-#import RSA_Encryption
+import RSA_Encryption_New
 
 
 def create_encypher(password):
@@ -16,7 +16,7 @@ def create_encypher(password):
 
 
 
-        primes = Generate_Prime.generate_prime(long_key_password_int)
+        primes = Generate_Prime.main(long_key_password_int)
         p = primes[0]
         q = primes[1]
         print(" P: ", p, "\n", "Q: ", q)
@@ -63,4 +63,5 @@ def decode_encypher(password, Encypher):
 password = input("Input Password \n")
 encypher = create_encypher(password)
 password = input("Input Password \n")
-decode_encypher(password, encypher)
+p_q = decode_encypher(password, encypher)
+RSA_Encryption_New.main(p_q[0], p_q[1], "help")
