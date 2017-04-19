@@ -1,0 +1,57 @@
+EncryptIT: A Password Protection PLatform Develop By Students at Olin College of Engineering
+
+DEVELOPERS:
+
+	Sean Szymanski
+		Mechanical Engineering
+		Class of 2020
+	Chris Aring
+		Computer Science
+		Class of 2020
+	Alex Li
+		Class of 2020
+
+
+
+BRIEF DESCRIPTION: 
+
+	This program was created as a password manager application. The program creates a website that uses XOR and RSA encyption to store user passwords for various different things. 
+
+
+
+
+DISCLAIMER: 
+
+	This was developed by 3 college students who may or may not actually know what they are doing, so you probably should not use this to store your actual passwords.
+
+
+
+
+RUNNING THE PROGRAM:
+
+
+	Running this program can be accomplish with 2 simple steps:
+
+	1. Enter the command "python3 server.py" into terminal while in this directory
+	2. You will see a that the server is now being hosted. Open this server by clicking on it
+
+	The website will now be open. You can Register or Login to the program. Once there you can access all your information. The program will decypher your passwords if you correctly type them in.
+
+	There is no need to install any packages. Packages have been inserted into the folder for the users convenience.
+
+
+
+
+LONG DESCRIPTION: 
+
+	This project started as a final project for Olin's Software Design Class in the spring of 2017. We were interested in encryption so we decided to go down that path. One interesting idea we thought of to do encryption was a password manager that would securley keep track of a user's information. We didn't know much about encryption so we used online resources, other students, and professors, to gain more information about encryption and the processes behind it. We then began to develop our program. We chose RSA and XOR encryption for our website and implemented this. We kept working and developed a website which would allow users to go to it and register or login. Then they can add passwords and the applications which those passwords are for. The way in which this is developed allows only a user with their account password to reveal their other passwords. Even with the computer in hand, there is no way to decrypt the information without a users password. There is no backdoor to this program.
+
+
+
+
+TECHNICAL DETAILS:
+
+	This is not intended to be a secure platform, so we will detail how we do all of our encrytion. The user's password is hashed and salted when it is entered into the program. This means that we do not have to store user passwords in plaintext, which would be less secure. When users login again, their password is again hashed and compared to the stored password. If they match, the user is logged in. The program also needs to securley store the passwords that are entered in. These passwords must be encryted, but they must be encryted in a reversible manner. We chose to use RSA encrytption for this. To do RSA encryption we needed prime numbers. We choose to randomly generate prime numbers for each user when they first register an account. These values are randomly chosen using the get_prime() function from the pycrypto library. Now that the primes have been generated they had to be stored. This was done using XOR encryption (see XOR.py) for each prime with the user's password. This generates an encypher key which we store. This key can only be decrypted with the users password. Now that this has been stored, when the user next logs in, their password with decrypt the encoded information, revealing the prime numbers. These primes can then be used by our RSA program (See RSA_Encryption_New.py) to encrypt or decrypt their information.
+
+WHAT WE STORE:
+	We store only an encrypted version of your personalized prime numbers, the places where your passwords are for, and your encrypted passwords. Because this is all we store, there is no way to decode the passwords unless you have the user's account password or break the encryption.

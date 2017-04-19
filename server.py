@@ -4,6 +4,7 @@ import csv
 import uuid
 import hashlib
 import main
+import RSA_Encryption_New
 
 app = Flask(__name__)
 
@@ -27,7 +28,9 @@ def login():
         password = request.form['password']
         if check_user_pass(username, password):
             key = get_user_key(username, password)
-            a = main.decode_encypher(password, key)
+            primes = main.decode_encypher(password, key)
+            session['p'] = primes[0]
+            session['q'] = primes[1]
             session['logged_in'] = True
             session['user'] = username
             return user()
@@ -68,14 +71,53 @@ def logout():
 def user():
     if not session['logged_in']:
         return redirect('/')
-    username = session['user']
-    with open('users.csv', newline='') as csvfile:
-        reader = csv.reader(csvfile, delimiter=' ', quotechar='|')
-        rows = [row for row in reader if row[0] == username]
-        for row in rows:
-            website_list = row[3::2]
-            password_list = row[4::2]
-    return render_template('user.html', websites=website_list, passwords=password_list)
+    if request.form['submit'] == 'Add Website':
+        return render_template("add_site.html")
+    elif request.form['submit'] == 'Logout':
+        return logout()
+    else:
+        username = session['user']
+        with open('users.csv', newline='') as csvfile:
+            reader = csv.reader(csvfile, delimiter=' ', quotechar='|')
+            rows = [row for row in reader if row[0] == username]
+            password_list_d = []
+            for row in rows:
+                website_list = row[3::2]
+                password_list = row[4::2]
+                print(password_list)
+                for password in password_list:
+                    password_list_d.append(RSA_Encryption_New.decrypt(session['p'], session['q'], password))
+        return render_template('user.html', websites=website_list, passwords=password_list_d)
+
+
+@app.route('/add_site', methods=['POST'])
+def add_site():
+    if not session['logged_in']:
+        return redirect('/')
+    error = None
+    if request.form['submit'] == 'Back':
+        return user()
+    elif request.form['submit'] == 'Add Website':
+        website = request.form['website']
+        password = request.form['password']
+        username = session['user']
+        with open('users.csv', 'r', newline='') as csvfile:
+            reader = csv.reader(csvfile, delimiter=' ', quotechar='|')
+            all_rows = [row for row in reader]
+
+        with open('users.csv', 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile, delimiter=' ',
+                                quotechar='|', quoting=csv.QUOTE_MINIMAL)
+            for i, row in enumerate(all_rows):
+                if row[0] == username:
+                    print(row)
+                    row.append(website)
+                    password = RSA_Encryption_New.encrypt(session['p'], session['q'], password)
+                    row.append(password)
+                    print(row)
+                    all_rows[i] = row
+            writer.writerows(all_rows)
+        return user()
 
 
 def write(username, password, key):

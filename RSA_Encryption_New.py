@@ -59,12 +59,31 @@ def mod_inv(e, phi):
         d = (x % phi)
         return(d)
 
-def encrypt(p, q, message):
-    pass
-def decrypt():
-    pass
+def decrypt(p, q, message):
+    n = p * q
+    phi = (p - 1) * (q - 1)
+    #msg = input("Enter Message:")
+    msg = int(message)
+    e = find_e(phi)
+    print(e)
+    d = mod_inv(e, phi)
+    decrypted = pow(msg, d, n)
+    print(decrypted)
+    msg_decrypted = int_to_msg(decrypted)
+    print("Your message was:", msg_decrypted)
+    return(msg_decrypted)
 
-    
+def encrypt(p, q, message):
+    n = p * q
+    phi = (p - 1) * (q - 1)
+    #msg = input("Enter Message:")
+    msg = message
+    msg_int = msg_to_int(msg)
+    e = find_e(phi)
+    print(e)
+    encrypted = pow(msg_int, e, n)
+    return(encrypted)
+
 def main(p, q, message):
     n = p * q
     phi = (p - 1) * (q - 1)
