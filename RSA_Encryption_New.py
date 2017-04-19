@@ -29,6 +29,9 @@ def int_to_msg(long_int):
     return(final_string)
 
 def find_e(phi):
+    """The e value is used in RSA encryption. This functions finds the value.
+    e is a number that is coprime with phi_q*phi_p"""
+
     non_primes = set(j for i in range(2, 8) for j in range(i*2, 200, i))
     primes = [x for x in range(2, 200) if x not in non_primes]
     for prime in primes:
@@ -60,6 +63,8 @@ def encrypt(p, q, message):
     pass
 def decrypt():
     pass
+
+    
 def main(p, q, message):
     n = p * q
     phi = (p - 1) * (q - 1)

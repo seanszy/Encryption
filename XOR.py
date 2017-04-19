@@ -3,21 +3,22 @@ def XOR(b1, b2):
     encrypt our private keys. This function runs XOR on two binary numbers that
     are passed in"""
 
+    #Convert Binary Numbers to str
     b1 = str(b1)
     b2 = str(b2)
 
-    #binary numbers can start with "0b", which throws an error. To prevent this
-    #those letters were removed if they existed
+    #Binary numbers can start with "0b", which throws an error. To prevent this
+    #Those letters were removed if they existed
     if b1[0:2] == '0b':
         b1 = b1[2:]
     if b2[0:2] == '0b':
         b2 = b2[2:]
 
-
     #converts strings into list of integers
     b1 = [int(x) for x in str(b1)]
     b2 = [int(x) for x in str(b2)]
 
+    #Initializes empty list for encypher key
     b3 = []
 
     #does XOR logic
