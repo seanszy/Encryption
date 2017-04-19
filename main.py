@@ -5,7 +5,6 @@ import random
 import binary
 import XOR
 import passwordToKey
-import Generate_Prime
 import RSA_Encryption_New
 import generate_primes
 
