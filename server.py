@@ -17,7 +17,7 @@ def index():
         with open('users.csv', 'w', newline='') as csvfile:
             writer = csv.writer(csvfile, delimiter=' ',
                                 quotechar='|', quoting=csv.QUOTE_MINIMAL)
-            writer.writerow(['username', 'password', 'key'])
+            writer.writerow(['username', 'password', 'email', 'key'])
     return render_template('login.html')
 
 
@@ -27,21 +27,31 @@ def login():
     if request.form['submit'] == 'Login':
         username = (request.form['username']).lower()
         password = request.form['password']
-        session['2_factor'] = gmail.send_2_factor("seanszy57@gmail.com")
-        print(session['2_factor'])
         if check_user_pass(username, password):
-            key = get_user_key(username, password)
+            email = get_email(username)
+            print(email)
+            session['2_factor'] = gmail.send_2_factor(email)
+            key = get_user_key(username)
             primes = main.decode_encypher(password, key)
             session['p'] = primes[0]
             session['q'] = primes[1]
             session['logged_in'] = True
             session['user'] = username
-            return user()
+            return render_template('2_factor.html')
         else:
             error = "Username or password is incorrect."
             return render_template('login.html', error = error)
     elif request.form['submit'] == 'Register':
         return render_template('register.html')
+    elif request.form['submit'] == 'Back':
+            return index()
+    elif request.form['submit'] == 'Continue':
+        code = (request.form['code'])
+        if int(code) == int(session['2_factor']):
+            return user()
+        else:
+            error = "Your entered code is incorrect."
+            return render_template('2_factor.html', error = error)
 
 
 @app.route('/register', methods=['POST'])
@@ -51,13 +61,14 @@ def register():
         return index()
     elif request.form['submit'] == 'Register':
         username = (request.form['username'].lower())
+        email = request.form['email']
         password = request.form['password']
         if len(password) < 8:
             error = "Password must be at least 8 characters long."
             return render_template('register.html', error= error)
-        if not check_user(username):
+        if not check_user(username, email):
             key = main.create_encypher(password)
-            write(username, password, key)
+            write(username, password, email, key)
             return redirect('/')
         else:
             error = "Username is taken. Please try again."
@@ -82,11 +93,11 @@ def user():
         username = session['user']
         with open('users.csv', newline='') as csvfile:
             reader = csv.reader(csvfile, delimiter=' ', quotechar='|')
-            rows = [row for row in reader if row[0] == username]
+            rows = [row for row in reader if row[0] == username or row[2] == username]
             password_list_d = []
             for row in rows:
-                website_list = row[3::2]
-                password_list = row[4::2]
+                website_list = row[4::2]
+                password_list = row[5::2]
                 print(password_list)
                 for password in password_list:
                     password_list_d.append(RSA_Encryption_New.decrypt(session['p'], session['q'], password))
@@ -112,7 +123,7 @@ def add_site():
             writer = csv.writer(csvfile, delimiter=' ',
                                 quotechar='|', quoting=csv.QUOTE_MINIMAL)
             for i, row in enumerate(all_rows):
-                if row[0] == username:
+                if row[0] == username or row[2] == username:
                     print(row)
                     row.append(website)
                     password = RSA_Encryption_New.encrypt(session['p'], session['q'], password)
@@ -123,26 +134,26 @@ def add_site():
         return user()
 
 
-def write(username, password, key):
+def write(username, password, email, key):
     password = hash_password(password)
     with open('users.csv', 'a', newline='') as csvfile:
         writer = csv.writer(csvfile, delimiter=' ',
                             quotechar='|', quoting=csv.QUOTE_MINIMAL)
-        writer.writerow([username, password, key])
+        writer.writerow([username, password, email, key])
 
 
-def check_user(username):
+def check_user(username, email):
     with open('users.csv', newline='') as csvfile:
         reader = csv.reader(csvfile, delimiter=' ', quotechar='|')
         for row in reader:
-            if username in row[0]:
+            if username in row[0] or email in row[2]:
                 return(True)
 
 
 def check_user_pass(username, password):
     with open('users.csv', newline='') as csvfile:
         reader = csv.reader(csvfile, delimiter=' ', quotechar='|')
-        rows = [row for row in reader if row[0] == username]
+        rows = [row for row in reader if row[0] == username or row[2] == username]
         for row in rows:
             if check_password(row[1], password):
                 return(True)
@@ -150,10 +161,18 @@ def check_user_pass(username, password):
                 return(False)
 
 
-def get_user_key(username, password):
+def get_user_key(username):
     with open('users.csv', newline='') as csvfile:
         reader = csv.reader(csvfile, delimiter=' ', quotechar='|')
-        rows = [row for row in reader if row[0] == username]
+        rows = [row for row in reader if row[0] == username or row[2] == username]
+        for row in rows:
+            return(row[3])
+
+
+def get_email(username):
+    with open('users.csv', newline='') as csvfile:
+        reader = csv.reader(csvfile, delimiter=' ', quotechar='|')
+        rows = [row for row in reader if row[0] == username or row[2] == username]
         for row in rows:
             return(row[2])
 
