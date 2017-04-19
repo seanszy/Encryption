@@ -27,9 +27,19 @@
               {% endfor %}
             </tbody>
           </table>
-        </div>
+          <form action="/user" method="post">
+            <input type="submit" name="submit" value="Add Website" class="btn btn-primary btn-large btn-block"></input>
+            <input type="submit" name="submit" value="Logout" class="btn btn2 btn-primary btn-large btn-block"></input>
+            <br>
+            {% if error %}
+              <div class="error">
+                Error: {{ error }}
+            {% endif %}
+          </div>
+          </form>
       </div>
     </div>
+  </div>
   </body>
 </html>
 {% else %}

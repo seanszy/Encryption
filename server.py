@@ -68,14 +68,48 @@ def logout():
 def user():
     if not session['logged_in']:
         return redirect('/')
-    username = session['user']
-    with open('users.csv', newline='') as csvfile:
-        reader = csv.reader(csvfile, delimiter=' ', quotechar='|')
-        rows = [row for row in reader if row[0] == username]
-        for row in rows:
-            website_list = row[3::2]
-            password_list = row[4::2]
-    return render_template('user.html', websites=website_list, passwords=password_list)
+    if request.form['submit'] == 'Add Website':
+        return render_template("add_site.html")
+    elif request.form['submit'] == 'Logout':
+        return logout()
+    else:
+        username = session['user']
+        with open('users.csv', newline='') as csvfile:
+            reader = csv.reader(csvfile, delimiter=' ', quotechar='|')
+            rows = [row for row in reader if row[0] == username]
+            for row in rows:
+                website_list = row[3::2]
+                password_list = row[4::2]
+        return render_template('user.html', websites=website_list, passwords=password_list)
+
+
+@app.route('/add_site', methods=['POST'])
+def add_site():
+    if not session['logged_in']:
+        return redirect('/')
+    error = None
+    if request.form['submit'] == 'Back':
+        return user()
+    elif request.form['submit'] == 'Add Website':
+        website = request.form['website']
+        password = request.form['password']
+        username = session['user']
+        with open('users.csv', 'r', newline='') as csvfile:
+            reader = csv.reader(csvfile, delimiter=' ', quotechar='|')
+            all_rows = [row for row in reader]
+
+        with open('users.csv', 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile, delimiter=' ',
+                                quotechar='|', quoting=csv.QUOTE_MINIMAL)
+            for i, row in enumerate(all_rows):
+                if row[0] == username:
+                    print(row)
+                    row.append(website)
+                    row.append(password)
+                    print(row)
+                    all_rows[i] = row
+            writer.writerows(all_rows)
+        return user()
 
 
 def write(username, password, key):
