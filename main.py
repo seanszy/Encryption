@@ -11,41 +11,50 @@ import generate_primes
 
 
 def create_encypher(password):
-    if len(password) > 7:
+    """This function is used to do all of the converion from the user password
+    to binary and then takes that information and creates an encypher key by
+    referencing our other programs to do XOR encrytion"""
+
+
+    if len(password) > 7: #make sure the password is longer
+        password = password + password + password + password
+        print(password)
         long_key_password_int = passwordToKey.passwordToKey(password) #converts the user password to an integer
         long_key_password = binary.to_binary(long_key_password_int) #converts users password to a binary
 
-
-
+        #use the generate primes file to generate primes
         primes = generate_primes.main()
+        #pull p and q from the returned value
         p = primes[0]
         q = primes[1]
         print(" P: ", p, "\n", "Q: ", q)
-        #long_key_one_binary = bin(p)
-        #long_key_two_binary = bin(q)
-        #convert P and Q to binary
-        long_key_one = p
-        long_key_two = q
-        long_key_one_binary = binary.to_binary(long_key_one)
-        long_key_two_binary = binary.to_binary(long_key_two)
 
-        #XOR P and Q
+
+        #converts p and q to binary using our program
+        long_key_one_binary = binary.to_binary(p)
+        long_key_two_binary = binary.to_binary(q)
+
+        #XOR P and Q with the password using XOR file
         Xored_p = XOR.XOR(long_key_one_binary, long_key_password)
         Xored_q = XOR.XOR(long_key_two_binary, long_key_password)
 
         #This is the encypher which we store on the computer
-        #print("Encypher:", Xored_p + "Z" + Xored_q)
+        #The p and q are separated by a Z so they can be distinguished from
+        #one another
         Encypher = Xored_p + "Z" + Xored_q
         print("Encypher:", Encypher)
         return Encypher
-    else:
-        print("I am sorrry, your password is too short. Try a password with 8 or more characters")
+    else: #if password is too short, this occurs
+        print("I am sorry, your password is too short. Try a password with 8 or more characters")
 
 
 def decode_encypher(password, Encypher):
+    password = password + password + password + password
     long_key_password_int = passwordToKey.passwordToKey(password) #converts the user password to an integer
     long_key_password = binary.to_binary(long_key_password_int) #converts users password to a binary
-    index = Encypher.find("Z")
+    index = Encypher.find("Z") #finds the index of Z
+
+    #Breaks it up and finds the encyphered versions of p and q
     Xored_p_from_cypher = Encypher[0:index]
     Xored_q_from_cypher = Encypher[index+1:]
 
@@ -63,11 +72,10 @@ def decode_encypher(password, Encypher):
 
 """
 password = input("Input Password \n")
-password = password + "Add extra information to this password"
 encypher = create_encypher(password)
 password = input("Input Password \n")
-password = password + "Add extra information to this password"
 p_q = decode_encypher(password, encypher)
-RSA_Encryption_New.main(p_q[0], p_q[1], "hooray this is cool I can type a lot lets see exactlyh")
+message = input("Type your message to encode\n")
+RSA_Encryption_New.main(p_q[0], p_q[1], message)
 decode_encypher(password, encypher)
 """

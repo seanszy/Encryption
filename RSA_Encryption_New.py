@@ -3,14 +3,25 @@ import numpy
 
 
 def msg_to_int(msg):
+    """This function converts the message to an integer. It does so for each
+    char, but adds 100 to each char in order to make each integer 3 digits long.
+    This makes parsing significantly easier"""
+
     msg_int = []
+
+    #Loops through each char"""
     for char in msg:
         msg_int.append(ord(char) + 100)
-    msg_int = int(''.join(map(str, msg_int)))
+    msg_int = int(''.join(map(str, msg_int))) #combines list to integer
     return(msg_int)
 
 def int_to_msg(long_int):
+    """This function converts an integer back into a message. It does so by
+    taking blocks of 3 digit integers and converting them to chars"""
+
     long_int = str(long_int)
+
+    #Converts large integer into many 3 digit integers
     msg = [long_int[i:i+3] for i in range(0, len(long_int), 3)]
     msg = list(map(int, msg))
     msg[:] = [x - 100 for x in msg]
@@ -50,8 +61,6 @@ def encrypt(p, q, message):
 def decrypt():
     pass
 def main(p, q, message):
-    #p = 12131072439211271897323671531612440428472427633701410925634549312301964373042085619324197365322416866541017057361365214171711713797974299334871062829803541
-    #q  = 12027524255478748885956220793734512128733387803682075433653899983955179850988797899869146900809131611153346817050832096022160146366346391812470987105415233
     n = p * q
     phi = (p - 1) * (q - 1)
     #msg = input("Enter Message:")
