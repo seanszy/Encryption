@@ -25,4 +25,4 @@ def send_2_factor(toaddrs):
     return two_factor #returns the authentication key so it can be compared to
     #what the user enters
 
-send_2_factor("seanszy57@gmail.com")
+#send_2_factor("seanszy57@gmail.com")

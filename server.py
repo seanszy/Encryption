@@ -5,6 +5,7 @@ import uuid
 import hashlib
 import main
 import RSA_Encryption_New
+import gmail
 
 app = Flask(__name__)
 
@@ -26,6 +27,8 @@ def login():
     if request.form['submit'] == 'Login':
         username = (request.form['username']).lower()
         password = request.form['password']
+        session['2_factor'] = gmail.send_2_factor("seanszy57@gmail.com")
+        print(session['2_factor'])
         if check_user_pass(username, password):
             key = get_user_key(username, password)
             primes = main.decode_encypher(password, key)
