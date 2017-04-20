@@ -10,7 +10,6 @@ configobj==5.0.6
 configparser==3.5.0
 cryptography==1.2.3
 cycler==0.10.0
-deap==1.0.2
 decorator==4.0.11
 defer==1.0.6
 entrypoints==0.2.2
