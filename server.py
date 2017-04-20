@@ -191,6 +191,5 @@ def check_password(db_password, user_password):
 
 if __name__ == '__main__':
     app.secret_key = os.urandom(12)
-    HOST = '0.0.0.0' if 'PORT' in os.environ else '127.0.0.1'
-    PORT = int(os.environ.get('PORT', 5000)))
-    app.run(host=HOST, port=PORT)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
