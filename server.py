@@ -1,6 +1,5 @@
 from flask import Flask, flash, redirect, render_template, request, session, abort
 import os
-import os.environ
 import csv
 import uuid
 import hashlib
