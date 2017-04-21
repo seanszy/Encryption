@@ -1,4 +1,6 @@
 from Crypto.Util import number
+
+
 def main():
     length = 300
     p = number.getPrime(length)
