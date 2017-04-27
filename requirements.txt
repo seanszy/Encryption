@@ -1,4 +1,3 @@
 Flask==0.12
 pycrypto==2.6.1
 numpy==1.12.0
-virtualenv==15.1.0
