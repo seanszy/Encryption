@@ -10,14 +10,13 @@ import generate_primes
 
 
 def create_encypher(password):
-    """This function is used to do all of the converion from the user password
+    """This function is used to do all of the conversion from the user password
     to binary and then takes that information and creates an encypher key by
     referencing our other programs to do XOR encrytion"""
 
 
     if len(password) > 7: #make sure the password is longer
         password = password + password + password + password
-        print(password)
         long_key_password_int = passwordToKey.passwordToKey(password) #converts the user password to an integer
         long_key_password = binary.to_binary(long_key_password_int) #converts users password to a binary
 
@@ -26,7 +25,6 @@ def create_encypher(password):
         #pull p and q from the returned value
         p = primes[0]
         q = primes[1]
-        print(" P: ", p, "\n", "Q: ", q)
 
 
         #converts p and q to binary using our program
@@ -41,13 +39,13 @@ def create_encypher(password):
         #The p and q are separated by a Z so they can be distinguished from
         #one another
         Encypher = Xored_p + "Z" + Xored_q
-        print("Encypher:", Encypher)
         return Encypher
     else: #if password is too short, this occurs
         print("I am sorry, your password is too short. Try a password with 8 or more characters")
 
 
 def decode_encypher(password, Encypher):
+    """This function is used to decode the encipher and retrieve the prime numbers. If references the XOR file and the binary file to do this."""
     password = password + password + password + password
     long_key_password_int = passwordToKey.passwordToKey(password) #converts the user password to an integer
     long_key_password = binary.to_binary(long_key_password_int) #converts users password to a binary
@@ -64,8 +62,6 @@ def decode_encypher(password, Encypher):
     #Convert from binary back to original int
     decoded_one = binary.from_binary(deXore_p)
     decoded_two = binary.from_binary(deXore_q)
-    print(" Decode P:", decoded_one)
-    print(" Decode Q:", decoded_two)
     return[decoded_one, decoded_two]
     #RSA_Encryption.run_rsa()
 
