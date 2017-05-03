@@ -9,13 +9,14 @@ DEVELOPERS:
 		Computer Science
 		Class of 2020
 	Alex Li
+		Robotics Engineering
 		Class of 2020
 
 
 
 BRIEF DESCRIPTION: 
 
-	This program was created as a password manager application. The program creates a website that uses XOR and RSA encyption to store user passwords for various different things. 
+	This program was created as a password manager application. The program creates a server that uses XOR and RSA encyption to store user passwords for various different things. However, you can also access our website, without running code at http://encrypt-it.herokuapp.com/. 
 
 
 
@@ -30,14 +31,12 @@ DISCLAIMER:
 RUNNING THE PROGRAM:
 
 
-	Running this program can be accomplish with 2 simple steps:
+	Running this program can be accomplish with 3 simple steps:
+	1. Run pip install -r requirements.txt in the folder that contains the downloaded code.
+	2. Enter the command "python3 server.py" into terminal while in this directory
+	3. You will see a that the server is now being hosted. Open this server by clicking on it
 
-	1. Enter the command "python3 server.py" into terminal while in this directory
-	2. You will see a that the server is now being hosted. Open this server by clicking on it
-
-	The website will now be open. You can Register or Login to the program. Once there you can access all your information. The program will decypher your passwords if you correctly type them in.
-
-	There is no need to install any packages. Packages have been inserted into the folder for the users convenience.
+	The website will now be open. It will place you on a screen where you can Register or Login to the program. Pressing on a button will take you to a register or login screen. Once you login, you will be moved to a two-factor authentication screen. If you pass this, you move to a password screen. Once there you can access all your information. There will be a page with an add website button. You can click it and enter the information to save a website. If you press back, you can view the websites you have saved.
 
 
 

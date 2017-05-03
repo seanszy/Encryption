@@ -1,4 +1,5 @@
-"""This is the main function of the document...WRITE MORE WHEN IM NOT LAZY AF"""
+"""This is the main function of the document it encodes and decodes the prime numbers for each user
+by using the XOR and Binary files."""
 
 #Import all the other python files that we want to run
 import random
