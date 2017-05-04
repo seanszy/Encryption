@@ -55,7 +55,7 @@ def EEA(a, b):
 # ex-phi*q = 1
 def mod_inv(e, phi):
     g, x, y = EEA(e, phi)
-    if g = 1:
+    if g == 1:
         d = (x % phi)
         return(d)
 
